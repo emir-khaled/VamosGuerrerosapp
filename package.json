@@ -1,0 +1,37 @@
+{
+  "name": "vamos-guerreros-admin",
+  "version": "1.0.0",
+  "description": "Panel administrador Vamos Guerreros",
+  "main": "main.js",
+  "author": "Tu Nombre",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3"
+  },
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.tuempresa.vamosguerrerosadmin",
+    "productName": "Vamos Guerreros Administrador",
+    "files": [
+      "main.js",
+      "index.html",
+      "style.css",
+      "js/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}

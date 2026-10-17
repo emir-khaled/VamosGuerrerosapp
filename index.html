@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vamos Guerreros Administrador</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========== PANTALLA PRINCIPAL (búsqueda + tabla) ========== -->
+  <div class="pantalla activa" id="pantalla-principal">
+
+    <header class="encabezado">
+      <h1>Vamos Guerreros administrador</h1>
+    </header>
+
+    <div class="contenido-principal">
+
+    <div id="contenedor-centrado">
+
+      <!-- BARRA DE BÚSQUEDA -->
+      <div id="barra-busqueda">
+        <input type="text" id="buscador" placeholder="Buscar centro..." />
+        <button id="cuadro-alta">Dar de alta</button>
+      </div>
+
+      <!-- TABLA DE REGISTROS -->
+      <div id="contenedor-tabla">
+        <table>
+          <thead>
+            <tr>
+              <th>Encargado</th>
+              <th>Teléfono</th>
+              <th>Domicilio</th>
+              <th>Centro de acopio</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla">
+            <!-- Las filas se agregarán aquí desde renderer.js -->
+          </tbody>
+        </table>
+        <p id="sin-resultados">No se encontraron registros.</p>
+      </div>
+
+    </div>
+
+    </div>
+  </div>
+
+  <!-- ========== PANTALLA DE DETALLE (pestañas) ========== -->
+  <div class="pantalla" id="pantalla-detalle">
+
+    <header class="encabezado">
+      <div class="fila-encabezado-accion">
+        <button class="boton-volver" data-volver="pantalla-principal">&larr; Volver</button>
+        <h1 id="nombre-centro-detalle">Nombre del centro</h1>
+      </div>
+    </header>
+
+    <div class="contenido-principal">
+
+      <!-- BARRA DE PESTAÑAS -->
+      <div id="barra-pestanas">
+        <button class="boton-pestana activa" data-pestana="historial">Historial de entregas</button>
+        <button class="boton-pestana" data-pestana="captura">Realizar captura nueva</button>
+        <button class="boton-pestana" data-pestana="gestionar">Gestionar datos</button>
+      </div>
+
+      <!-- CONTENIDO: Historial de entregas -->
+      <div class="contenido-pestana activa" id="contenido-historial">
+        <div id="contenedor-tabla-historial">
+          <table>
+            <thead>
+              <tr>
+                <th>Acciones</th>
+                <th>Fecha de entrega</th>
+                <th>Cantidad (kg)</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpo-historial">
+              <!-- Las filas se agregarán aquí desde historial.js -->
+            </tbody>
+          </table>
+        </div>
+        <p id="total-entregas">Total entregado: <strong><span id="total-entregas-valor">0</span> kg</strong></p>
+      </div>
+
+      <!-- CONTENIDO: Realizar captura nueva -->
+      <div class="contenido-pestana" id="contenido-captura">
+        <div id="tarjeta-formulario-captura">
+          <form id="formulario-captura-entrega" novalidate>
+
+            <!-- Día, mes y año se piden por separado, en ese orden -->
+            <div class="fila-fecha">
+              <div class="campo-fecha">
+                <label for="captura-dia">Día</label>
+                <input type="number" id="captura-dia" min="1" max="31" />
+                <span class="mensaje-error" id="error-captura-dia"></span>
+              </div>
+
+              <div class="campo-fecha">
+                <label for="captura-mes">Mes</label>
+                <input type="number" id="captura-mes" min="1" max="12" />
+                <span class="mensaje-error" id="error-captura-mes"></span>
+              </div>
+
+              <div class="campo-fecha">
+                <label for="captura-anio">Año</label>
+                <input type="number" id="captura-anio" min="2000" max="2100" />
+                <span class="mensaje-error" id="error-captura-anio"></span>
+              </div>
+            </div>
+
+            <label for="captura-cantidad">Cantidad (kg)</label>
+            <input type="number" id="captura-cantidad" min="0" step="0.1" />
+            <span class="mensaje-error" id="error-captura-cantidad"></span>
+
+            <button type="submit" id="boton-guardar-captura">Registrar entrega</button>
+            <button type="button" id="boton-cancelar-edicion" class="oculto">Cancelar edición</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- CONTENIDO: Gestionar datos (con sub-pestañas) -->
+      <div class="contenido-pestana" id="contenido-gestionar">
+
+        <!-- SUB-PESTAÑAS: Modificar datos / Dar de baja -->
+        <div id="barra-subpestanas">
+          <button class="boton-subpestana activa" data-subpestana="modificar">Modificar datos</button>
+          <button class="boton-subpestana subpestana-baja" data-subpestana="baja">Dar de baja</button>
+        </div>
+
+        <div class="contenido-subpestana activa" id="subcontenido-modificar">
+          <div id="tarjeta-formulario-modificar">
+            <form id="formulario-modificar-centro" novalidate>
+              <label for="modificar-encargado">Encargado</label>
+              <input type="text" id="modificar-encargado" />
+              <span class="mensaje-error" id="error-modificar-encargado"></span>
+
+              <label for="modificar-telefono">Teléfono</label>
+              <input type="text" id="modificar-telefono" />
+              <span class="mensaje-error" id="error-modificar-telefono"></span>
+
+              <label for="modificar-domicilio">Domicilio</label>
+              <input type="text" id="modificar-domicilio" />
+              <span class="mensaje-error" id="error-modificar-domicilio"></span>
+
+              <label for="modificar-centro-acopio">Centro de acopio</label>
+              <input type="text" id="modificar-centro-acopio" />
+              <span class="mensaje-error" id="error-modificar-centro-acopio"></span>
+
+              <button type="submit">Guardar cambios</button>
+              <p class="mensaje-exito" id="mensaje-exito-modificar">Los datos se actualizaron correctamente.</p>
+            </form>
+          </div>
+        </div>
+
+        <div class="contenido-subpestana" id="subcontenido-baja">
+          <div id="tarjeta-dar-de-baja">
+            <p>
+              Esta acción eliminará permanentemente este centro de acopio
+              (<strong id="nombre-centro-baja"></strong>) y no se puede deshacer.
+            </p>
+            <button type="button" id="boton-confirmar-baja">Dar de baja este centro</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== PANTALLA DE DAR DE ALTA (formulario) ========== -->
+  <div class="pantalla" id="pantalla-alta">
+
+    <header class="encabezado">
+      <div class="fila-encabezado-accion">
+        <button class="boton-volver" data-volver="pantalla-principal">&larr; Volver</button>
+        <h1>Dar de alta centro</h1>
+      </div>
+    </header>
+
+    <div class="contenido-principal">
+
+      <div id="tarjeta-formulario-alta">
+        <form id="formulario-alta-centro" novalidate>
+          <label for="alta-encargado">Encargado</label>
+          <input type="text" id="alta-encargado" />
+          <span class="mensaje-error" id="error-alta-encargado"></span>
+
+          <label for="alta-telefono">Teléfono</label>
+          <input type="text" id="alta-telefono" />
+          <span class="mensaje-error" id="error-alta-telefono"></span>
+
+          <label for="alta-correo">Correo electrónico</label>
+          <input type="email" id="alta-correo" name="email" />
+          <span class="mensaje-error" id="error-alta-correo"></span>
+
+          <label for="alta-domicilio">Domicilio</label>
+          <input type="text" id="alta-domicilio" />
+          <span class="mensaje-error" id="error-alta-domicilio"></span>
+
+          <label for="alta-centro-acopio">Centro de acopio</label>
+          <input type="text" id="alta-centro-acopio" />
+          <span class="mensaje-error" id="error-alta-centro-acopio"></span>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ORDEN DE CARGA IMPORTANTE:
+       1. registro.js          -> define la clase Registro
+       2. datos.js             -> crea el arreglo "registros" (usa la clase)
+       3. tabla.js             -> dibuja la tabla (usa "registros")
+       4. busqueda.js          -> filtra la tabla (usa "registros" y "dibujarTabla")
+       5. entrega.js           -> define la clase Entrega
+       6. historial.js         -> datos, tabla y suma del historial (usa la clase Entrega)
+       7. detalle.js           -> pantalla de detalle y pestañas (llama a "precargarFormularioModificar")
+       8. gestionar-datos.js   -> modificar datos del centro y darlo de baja
+       9. navegacion.js        -> cambia entre pantallas (llama a "dibujarTabla" al final)
+       10. formulario-alta.js  -> valida y guarda un nuevo registro
+       11. captura-entrega.js  -> valida y guarda una nueva entrega -->
+  <script src="js/registro.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/tabla.js"></script>
+  <script src="js/busqueda.js"></script>
+  <script src="js/entrega.js"></script>
+  <script src="js/historial.js"></script>
+  <script src="js/detalle.js"></script>
+  <script src="js/gestionar-datos.js"></script>
+  <script src="js/navegacion.js"></script>
+  <script src="js/formulario-alta.js"></script>
+  <script src="js/captura-entrega.js"></script>
+</body>
+</html>
